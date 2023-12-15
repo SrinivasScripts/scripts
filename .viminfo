@@ -12,9 +12,9 @@
 ~h
 # Command Line History (newest to oldest):
 :wq!
-|2,0,1702608809,,"wq!"
+|2,0,1702613171,,"wq!"
 :%d
-|2,0,1702605930,,"%d"
+|2,0,1702611526,,"%d"
 :wq
 |2,0,1702605377,,"wq"
 
@@ -28,22 +28,61 @@
 
 # Registers:
 ""1	LINE	0
+	#!/bin/bash
+	
+	# Configuration file containing service names (one service per line)
+	CONFIG_FILE="services.txt"
+	
+	# Function to check the status of a service
+	check_service() {
+	    local service=$1
+	    if systemctl is-active --quiet $service; then
+	        echo "Service $service is running."
+	    else
+	        echo "ERROR: Service $service is not running."
+	        exit 1
+	    fi
+	}
+	
+	# Main function
+	main() {
+	    echo "Service Monitoring Script"
+	    echo "------------------------"
+	
+	    # Check services listed in the configuration file
+	    while IFS= read -r service; do
+	        check_service "$service"
+	    done < "$CONFIG_FILE"
+	
+	    echo "All services are running."
+	
+	    # Additional actions or monitoring logic can be added here
+	
+	    exit 0
+	}
+	
+	# Run the main function
+	main
+	
+|3,1,1,1,36,0,1702611526,"#!/bin/bash","","# Configuration file containing service names (one service per line)","CONFIG_FILE=\"services.txt\"","","# Function to check the status of a service","check_service() {","    local service=$1","    if systemctl is-active --quiet $service; then","        echo \"Service $service is running.\"","    else","        echo \"ERROR: Service $service is not running.\"","        exit 1","    fi","}","","# Main function",>10
+|<"main() {","    echo \"Service Monitoring Script\"","    echo \"------------------------\"","","    # Check services listed in the configuration file","    while IFS= read -r service; do","        check_service \"$service\"","    done < \"$CONFIG_FILE\"","","    echo \"All services are running.\"","","    # Additional actions or monitoring logic can be added here","","    exit 0","}","","# Run the main function","main",""
+"2	LINE	0
 	        echo "ERROR: CPU Usage exceeds $CPU_THRESHOLD%: ${cpuUsage:-N/A}" >&2
 	        exit 1
-|3,1,1,1,2,0,1702607454,"        echo \"ERROR: CPU Usage exceeds $CPU_THRESHOLD%: ${cpuUsage:-N/A}\" >&2","        exit 1"
-"2	LINE	0
+|3,0,2,1,2,0,1702607454,"        echo \"ERROR: CPU Usage exceeds $CPU_THRESHOLD%: ${cpuUsage:-N/A}\" >&2","        exit 1"
+"3	LINE	0
 	    # Check CPU threshold
 	    if [ -z "$cpuUsage" ] || [ "$cpuUsage" -gt "$CPU_THRESHOLD" ]; then
-|3,0,2,1,2,0,1702607443,"    # Check CPU threshold","    if [ -z \"$cpuUsage\" ] || [ \"$cpuUsage\" -gt \"$CPU_THRESHOLD\" ]; then"
-"3	LINE	0
+|3,0,3,1,2,0,1702607443,"    # Check CPU threshold","    if [ -z \"$cpuUsage\" ] || [ \"$cpuUsage\" -gt \"$CPU_THRESHOLD\" ]; then"
+"4	LINE	0
 	    # Check memory threshold
 	 
-|3,0,3,1,2,0,1702607435,"    # Check memory threshold"," "
-"4	LINE	0
+|3,0,4,1,2,0,1702607435,"    # Check memory threshold"," "
+"5	LINE	0
 	    if [ -z "$memUsage" ] || [ "$memUsage" -gt "$MEMORY_THRESHOLD" ]; then
 	    
-|3,0,4,1,2,0,1702607433,"    if [ -z \"$memUsage\" ] || [ \"$memUsage\" -gt \"$MEMORY_THRESHOLD\" ]; then","    "
-"5	LINE	0
+|3,0,5,1,2,0,1702607433,"    if [ -z \"$memUsage\" ] || [ \"$memUsage\" -gt \"$MEMORY_THRESHOLD\" ]; then","    "
+"6	LINE	0
 	#!/bin/bash
 	
 	# Set thresholds for system metrics
@@ -94,235 +133,251 @@
 	# Run the main function
 	main
 	
-|3,0,5,1,50,0,1702605930,"#!/bin/bash","","# Set thresholds for system metrics","CPU_THRESHOLD=80","MEMORY_THRESHOLD=80","DISK_THRESHOLD=80","","# Function to check CPU usage","check_cpu() {","    CPU_USAGE=$(mpstat 1 1 | awk '/Average:/ {print 100 - $NF}')","    if [ \"$CPU_USAGE\" -gt \"$CPU_THRESHOLD\" ]; then","        echo \"ERROR: CPU Usage exceeds $CPU_THRESHOLD%: $CPU_USAGE%\" >&2","        exit 1","    fi","}","","# Function to check memory usage",>18
+|3,0,6,1,50,0,1702605930,"#!/bin/bash","","# Set thresholds for system metrics","CPU_THRESHOLD=80","MEMORY_THRESHOLD=80","DISK_THRESHOLD=80","","# Function to check CPU usage","check_cpu() {","    CPU_USAGE=$(mpstat 1 1 | awk '/Average:/ {print 100 - $NF}')","    if [ \"$CPU_USAGE\" -gt \"$CPU_THRESHOLD\" ]; then","        echo \"ERROR: CPU Usage exceeds $CPU_THRESHOLD%: $CPU_USAGE%\" >&2","        exit 1","    fi","}","","# Function to check memory usage",>18
 |<"check_memory() {","    MEMORY_USAGE=$(free | awk '/Mem:/ {printf \"%.2f\", $3/$2 * 100}')","    if [ \"$(echo \"$MEMORY_USAGE > $MEMORY_THRESHOLD\" | bc -l)\" -eq 1 ]; then","        echo \"ERROR: Memory Usage exceeds $MEMORY_THRESHOLD%: $MEMORY_USAGE%\" >&2","        exit 1","    fi","}","","# Function to check disk usage","check_disk() {","    DISK_USAGE=$(df -h / | awk '/\\// {print $(NF-1)}' | sed 's/%//')","    if [ \"$DISK_USAGE\" -gt \"$DISK_THRESHOLD\" ]; then",>79
 |<"        echo \"ERROR: Disk Usage exceeds $DISK_THRESHOLD%: $DISK_USAGE%\" >&2","        exit 1","    fi","}","","# Main function","main() {","    # Redirect standard output and standard error to metrics.txt","    exec > metrics.txt 2>&1","","    echo \"Timestamp: $(date)\"","    check_cpu","    check_memory","    check_disk","","    echo \"Metrics collected successfully.\"","}","","# Run the main function","main",""
 
 # File marks:
-'0  35  13  ~/cpumetrics.sh
-|4,48,35,13,1702608809,"~/cpumetrics.sh"
-'1  33  40  ~/cpumetrics.sh
-|4,49,33,40,1702608485,"~/cpumetrics.sh"
-'2  33  40  ~/cpumetrics.sh
-|4,50,33,40,1702608485,"~/cpumetrics.sh"
-'3  28  0  ~/cpumetrics.sh
-|4,51,28,0,1702608399,"~/cpumetrics.sh"
-'4  28  0  ~/cpumetrics.sh
-|4,52,28,0,1702608399,"~/cpumetrics.sh"
-'5  28  0  ~/cpumetrics.sh
-|4,53,28,0,1702608399,"~/cpumetrics.sh"
-'6  28  0  ~/cpumetrics.sh
-|4,54,28,0,1702608399,"~/cpumetrics.sh"
-'7  36  2  ~/cpumetrics.sh
-|4,55,36,2,1702608256,"~/cpumetrics.sh"
-'8  36  2  ~/cpumetrics.sh
-|4,56,36,2,1702608256,"~/cpumetrics.sh"
-'9  33  2  ~/cpumetrics.sh
-|4,57,33,2,1702608256,"~/cpumetrics.sh"
+'0  19  0  ~/services.sh
+|4,48,19,0,1702613171,"~/services.sh"
+'1  19  0  ~/services.sh
+|4,49,19,0,1702613154,"~/services.sh"
+'2  11  4  ~/services.sh
+|4,50,11,4,1702611867,"~/services.sh"
+'3  11  4  ~/services.sh
+|4,51,11,4,1702611867,"~/services.sh"
+'4  11  4  ~/services.sh
+|4,52,11,4,1702611867,"~/services.sh"
+'5  11  4  ~/services.sh
+|4,53,11,4,1702611867,"~/services.sh"
+'6  12  16  ~/services.sh
+|4,54,12,16,1702611722,"~/services.sh"
+'7  11  16  ~/services.sh
+|4,55,11,16,1702611722,"~/services.sh"
+'8  12  16  ~/services.sh
+|4,56,12,16,1702611722,"~/services.sh"
+'9  11  16  ~/services.sh
+|4,57,11,16,1702611722,"~/services.sh"
 
 # Jumplist (newest first):
+-'  19  0  ~/services.sh
+|4,39,19,0,1702613171,"~/services.sh"
+-'  19  0  ~/services.sh
+|4,39,19,0,1702613154,"~/services.sh"
+-'  11  4  ~/services.sh
+|4,39,11,4,1702613148,"~/services.sh"
+-'  11  4  ~/services.sh
+|4,39,11,4,1702613148,"~/services.sh"
+-'  11  4  ~/services.sh
+|4,39,11,4,1702611867,"~/services.sh"
+-'  12  16  ~/services.sh
+|4,39,12,16,1702611831,"~/services.sh"
+-'  12  16  ~/services.sh
+|4,39,12,16,1702611831,"~/services.sh"
+-'  12  16  ~/services.sh
+|4,39,12,16,1702611831,"~/services.sh"
+-'  11  16  ~/services.sh
+|4,39,11,16,1702611722,"~/services.sh"
+-'  8  0  ~/services.sh
+|4,39,8,0,1702611620,"~/services.sh"
+-'  8  0  ~/services.sh
+|4,39,8,0,1702611620,"~/services.sh"
+-'  8  0  ~/services.sh
+|4,39,8,0,1702611620,"~/services.sh"
+-'  8  0  ~/services.sh
+|4,39,8,0,1702611620,"~/services.sh"
+-'  8  0  ~/services.sh
+|4,39,8,0,1702611573,"~/services.sh"
+-'  3  25  ~/services.sh
+|4,39,3,25,1702611562,"~/services.sh"
+-'  3  25  ~/services.sh
+|4,39,3,25,1702611562,"~/services.sh"
+-'  3  25  ~/services.sh
+|4,39,3,25,1702611562,"~/services.sh"
+-'  3  25  ~/services.sh
+|4,39,3,25,1702611562,"~/services.sh"
+-'  3  25  ~/services.sh
+|4,39,3,25,1702611562,"~/services.sh"
+-'  3  25  ~/services.sh
+|4,39,3,25,1702611551,"~/services.sh"
+-'  1  0  ~/services.sh
+|4,39,1,0,1702611526,"~/services.sh"
+-'  1  0  ~/services.sh
+|4,39,1,0,1702611526,"~/services.sh"
+-'  1  0  ~/services.sh
+|4,39,1,0,1702611526,"~/services.sh"
+-'  1  0  ~/services.sh
+|4,39,1,0,1702611526,"~/services.sh"
+-'  1  0  ~/services.sh
+|4,39,1,0,1702611526,"~/services.sh"
+-'  1  0  ~/services.sh
+|4,39,1,0,1702611526,"~/services.sh"
+-'  35  0  ~/services.sh
+|4,39,35,0,1702611335,"~/services.sh"
+-'  37  0  ~/services.sh
+|4,39,37,0,1702611335,"~/services.sh"
+-'  34  0  ~/services.sh
+|4,39,34,0,1702611335,"~/services.sh"
+-'  36  0  ~/services.sh
+|4,39,36,0,1702611335,"~/services.sh"
+-'  35  0  ~/services.sh
+|4,39,35,0,1702611335,"~/services.sh"
+-'  37  0  ~/services.sh
+|4,39,37,0,1702611335,"~/services.sh"
+-'  34  0  ~/services.sh
+|4,39,34,0,1702611335,"~/services.sh"
+-'  36  0  ~/services.sh
+|4,39,36,0,1702611335,"~/services.sh"
+-'  35  0  ~/services.sh
+|4,39,35,0,1702611335,"~/services.sh"
+-'  37  0  ~/services.sh
+|4,39,37,0,1702611335,"~/services.sh"
+-'  34  0  ~/services.sh
+|4,39,34,0,1702611335,"~/services.sh"
+-'  36  0  ~/services.sh
+|4,39,36,0,1702611335,"~/services.sh"
+-'  36  0  ~/services.sh
+|4,39,36,0,1702611335,"~/services.sh"
+-'  1  0  ~/services.sh
+|4,39,1,0,1702611312,"~/services.sh"
 -'  35  13  ~/cpumetrics.sh
 |4,39,35,13,1702608809,"~/cpumetrics.sh"
--'  33  40  ~/cpumetrics.sh
-|4,39,33,40,1702608512,"~/cpumetrics.sh"
--'  33  40  ~/cpumetrics.sh
-|4,39,33,40,1702608485,"~/cpumetrics.sh"
--'  28  0  ~/cpumetrics.sh
-|4,39,28,0,1702608443,"~/cpumetrics.sh"
--'  28  0  ~/cpumetrics.sh
-|4,39,28,0,1702608443,"~/cpumetrics.sh"
--'  28  0  ~/cpumetrics.sh
-|4,39,28,0,1702608399,"~/cpumetrics.sh"
--'  36  2  ~/cpumetrics.sh
-|4,39,36,2,1702608316,"~/cpumetrics.sh"
--'  35  2  ~/cpumetrics.sh
-|4,39,35,2,1702608316,"~/cpumetrics.sh"
--'  35  2  ~/cpumetrics.sh
-|4,39,35,2,1702608316,"~/cpumetrics.sh"
--'  33  2  ~/cpumetrics.sh
-|4,39,33,2,1702608256,"~/cpumetrics.sh"
--'  43  0  ~/cpumetrics.sh
-|4,39,43,0,1702607679,"~/cpumetrics.sh"
--'  41  0  ~/cpumetrics.sh
-|4,39,41,0,1702607679,"~/cpumetrics.sh"
--'  42  0  ~/cpumetrics.sh
-|4,39,42,0,1702607679,"~/cpumetrics.sh"
--'  40  0  ~/cpumetrics.sh
-|4,39,40,0,1702607679,"~/cpumetrics.sh"
--'  42  0  ~/cpumetrics.sh
-|4,39,42,0,1702607679,"~/cpumetrics.sh"
--'  40  0  ~/cpumetrics.sh
-|4,39,40,0,1702607679,"~/cpumetrics.sh"
--'  40  0  ~/cpumetrics.sh
-|4,39,40,0,1702607652,"~/cpumetrics.sh"
--'  40  0  ~/cpumetrics.sh
-|4,39,40,0,1702607641,"~/cpumetrics.sh"
--'  30  3  ~/cpumetrics.sh
-|4,39,30,3,1702607560,"~/cpumetrics.sh"
--'  30  3  ~/cpumetrics.sh
-|4,39,30,3,1702607560,"~/cpumetrics.sh"
--'  30  3  ~/cpumetrics.sh
-|4,39,30,3,1702607560,"~/cpumetrics.sh"
--'  28  3  ~/cpumetrics.sh
-|4,39,28,3,1702607560,"~/cpumetrics.sh"
--'  28  3  ~/cpumetrics.sh
-|4,39,28,3,1702607560,"~/cpumetrics.sh"
--'  28  3  ~/cpumetrics.sh
-|4,39,28,3,1702607560,"~/cpumetrics.sh"
--'  31  3  ~/cpumetrics.sh
-|4,39,31,3,1702607504,"~/cpumetrics.sh"
--'  31  3  ~/cpumetrics.sh
-|4,39,31,3,1702607504,"~/cpumetrics.sh"
--'  33  3  ~/cpumetrics.sh
-|4,39,33,3,1702607504,"~/cpumetrics.sh"
--'  31  3  ~/cpumetrics.sh
-|4,39,31,3,1702607504,"~/cpumetrics.sh"
--'  31  3  ~/cpumetrics.sh
-|4,39,31,3,1702607504,"~/cpumetrics.sh"
--'  31  3  ~/cpumetrics.sh
-|4,39,31,3,1702607504,"~/cpumetrics.sh"
--'  52  0  ~/cpumetrics.sh
-|4,39,52,0,1702607192,"~/cpumetrics.sh"
--'  50  0  ~/cpumetrics.sh
-|4,39,50,0,1702607192,"~/cpumetrics.sh"
--'  51  0  ~/cpumetrics.sh
-|4,39,51,0,1702607192,"~/cpumetrics.sh"
--'  49  0  ~/cpumetrics.sh
-|4,39,49,0,1702607192,"~/cpumetrics.sh"
--'  51  0  ~/cpumetrics.sh
-|4,39,51,0,1702607192,"~/cpumetrics.sh"
--'  49  0  ~/cpumetrics.sh
-|4,39,49,0,1702607192,"~/cpumetrics.sh"
--'  49  0  ~/cpumetrics.sh
-|4,39,49,0,1702607192,"~/cpumetrics.sh"
--'  49  0  ~/cpumetrics.sh
-|4,39,49,0,1702607192,"~/cpumetrics.sh"
--'  16  0  ~/cpumetrics.sh
-|4,39,16,0,1702606641,"~/cpumetrics.sh"
--'  19  0  ~/cpumetrics.sh
-|4,39,19,0,1702606641,"~/cpumetrics.sh"
--'  14  0  ~/cpumetrics.sh
-|4,39,14,0,1702606641,"~/cpumetrics.sh"
--'  17  0  ~/cpumetrics.sh
-|4,39,17,0,1702606641,"~/cpumetrics.sh"
--'  16  0  ~/cpumetrics.sh
-|4,39,16,0,1702606641,"~/cpumetrics.sh"
--'  19  0  ~/cpumetrics.sh
-|4,39,19,0,1702606641,"~/cpumetrics.sh"
--'  14  0  ~/cpumetrics.sh
-|4,39,14,0,1702606641,"~/cpumetrics.sh"
--'  17  0  ~/cpumetrics.sh
-|4,39,17,0,1702606641,"~/cpumetrics.sh"
--'  16  0  ~/cpumetrics.sh
-|4,39,16,0,1702606641,"~/cpumetrics.sh"
--'  19  0  ~/cpumetrics.sh
-|4,39,19,0,1702606641,"~/cpumetrics.sh"
--'  14  0  ~/cpumetrics.sh
-|4,39,14,0,1702606641,"~/cpumetrics.sh"
--'  17  0  ~/cpumetrics.sh
-|4,39,17,0,1702606641,"~/cpumetrics.sh"
--'  14  0  ~/cpumetrics.sh
-|4,39,14,0,1702606641,"~/cpumetrics.sh"
--'  17  0  ~/cpumetrics.sh
-|4,39,17,0,1702606641,"~/cpumetrics.sh"
--'  14  0  ~/cpumetrics.sh
-|4,39,14,0,1702606641,"~/cpumetrics.sh"
--'  17  0  ~/cpumetrics.sh
-|4,39,17,0,1702606641,"~/cpumetrics.sh"
--'  1  0  ~/cpumetrics.sh
-|4,39,1,0,1702606624,"~/cpumetrics.sh"
--'  1  0  ~/cpumetrics.sh
-|4,39,1,0,1702606624,"~/cpumetrics.sh"
--'  1  0  ~/cpumetrics.sh
-|4,39,1,0,1702606624,"~/cpumetrics.sh"
--'  1  0  ~/cpumetrics.sh
-|4,39,1,0,1702606624,"~/cpumetrics.sh"
--'  1  0  ~/cpumetrics.sh
-|4,39,1,0,1702606624,"~/cpumetrics.sh"
--'  1  0  ~/cpumetrics.sh
-|4,39,1,0,1702606624,"~/cpumetrics.sh"
--'  1  0  ~/cpumetrics.sh
-|4,39,1,0,1702606624,"~/cpumetrics.sh"
--'  1  0  ~/cpumetrics.sh
-|4,39,1,0,1702606624,"~/cpumetrics.sh"
--'  87  0  ~/cpumetrics.sh
-|4,39,87,0,1702606067,"~/cpumetrics.sh"
--'  55  0  ~/cpumetrics.sh
-|4,39,55,0,1702606067,"~/cpumetrics.sh"
--'  96  0  ~/cpumetrics.sh
-|4,39,96,0,1702606067,"~/cpumetrics.sh"
--'  64  0  ~/cpumetrics.sh
-|4,39,64,0,1702606067,"~/cpumetrics.sh"
--'  85  0  ~/cpumetrics.sh
-|4,39,85,0,1702606067,"~/cpumetrics.sh"
--'  53  0  ~/cpumetrics.sh
-|4,39,53,0,1702606067,"~/cpumetrics.sh"
--'  94  0  ~/cpumetrics.sh
-|4,39,94,0,1702606067,"~/cpumetrics.sh"
--'  62  0  ~/cpumetrics.sh
-|4,39,62,0,1702606067,"~/cpumetrics.sh"
--'  86  0  ~/cpumetrics.sh
-|4,39,86,0,1702606067,"~/cpumetrics.sh"
--'  54  0  ~/cpumetrics.sh
-|4,39,54,0,1702606067,"~/cpumetrics.sh"
--'  95  0  ~/cpumetrics.sh
-|4,39,95,0,1702606067,"~/cpumetrics.sh"
--'  63  0  ~/cpumetrics.sh
-|4,39,63,0,1702606067,"~/cpumetrics.sh"
--'  84  0  ~/cpumetrics.sh
-|4,39,84,0,1702606067,"~/cpumetrics.sh"
--'  52  0  ~/cpumetrics.sh
-|4,39,52,0,1702606067,"~/cpumetrics.sh"
--'  93  0  ~/cpumetrics.sh
-|4,39,93,0,1702606067,"~/cpumetrics.sh"
--'  61  0  ~/cpumetrics.sh
-|4,39,61,0,1702606067,"~/cpumetrics.sh"
--'  86  0  ~/cpumetrics.sh
-|4,39,86,0,1702606067,"~/cpumetrics.sh"
--'  54  0  ~/cpumetrics.sh
-|4,39,54,0,1702606067,"~/cpumetrics.sh"
--'  95  0  ~/cpumetrics.sh
-|4,39,95,0,1702606067,"~/cpumetrics.sh"
--'  63  0  ~/cpumetrics.sh
-|4,39,63,0,1702606067,"~/cpumetrics.sh"
--'  84  0  ~/cpumetrics.sh
-|4,39,84,0,1702606067,"~/cpumetrics.sh"
--'  52  0  ~/cpumetrics.sh
-|4,39,52,0,1702606067,"~/cpumetrics.sh"
--'  93  0  ~/cpumetrics.sh
-|4,39,93,0,1702606067,"~/cpumetrics.sh"
--'  61  0  ~/cpumetrics.sh
-|4,39,61,0,1702606067,"~/cpumetrics.sh"
--'  84  0  ~/cpumetrics.sh
-|4,39,84,0,1702606067,"~/cpumetrics.sh"
--'  52  0  ~/cpumetrics.sh
-|4,39,52,0,1702606067,"~/cpumetrics.sh"
--'  93  0  ~/cpumetrics.sh
-|4,39,93,0,1702606067,"~/cpumetrics.sh"
--'  61  0  ~/cpumetrics.sh
-|4,39,61,0,1702606067,"~/cpumetrics.sh"
--'  84  0  ~/cpumetrics.sh
-|4,39,84,0,1702606067,"~/cpumetrics.sh"
--'  52  0  ~/cpumetrics.sh
-|4,39,52,0,1702606067,"~/cpumetrics.sh"
--'  93  0  ~/cpumetrics.sh
-|4,39,93,0,1702606067,"~/cpumetrics.sh"
--'  61  0  ~/cpumetrics.sh
-|4,39,61,0,1702606067,"~/cpumetrics.sh"
--'  61  0  ~/cpumetrics.sh
-|4,39,61,0,1702606067,"~/cpumetrics.sh"
--'  61  0  ~/cpumetrics.sh
-|4,39,61,0,1702605976,"~/cpumetrics.sh"
--'  61  0  ~/cpumetrics.sh
-|4,39,61,0,1702605939,"~/cpumetrics.sh"
--'  1  0  ~/cpumetrics.sh
-|4,39,1,0,1702605930,"~/cpumetrics.sh"
--'  1  0  ~/cpumetrics.sh
-|4,39,1,0,1702605930,"~/cpumetrics.sh"
--'  1  0  ~/cpumetrics.sh
-|4,39,1,0,1702605930,"~/cpumetrics.sh"
+-'  35  13  ~/cpumetrics.sh
+|4,39,35,13,1702608809,"~/cpumetrics.sh"
+-'  35  13  ~/cpumetrics.sh
+|4,39,35,13,1702608809,"~/cpumetrics.sh"
+-'  35  13  ~/cpumetrics.sh
+|4,39,35,13,1702608809,"~/cpumetrics.sh"
+-'  35  13  ~/cpumetrics.sh
+|4,39,35,13,1702608809,"~/cpumetrics.sh"
+-'  35  13  ~/cpumetrics.sh
+|4,39,35,13,1702608809,"~/cpumetrics.sh"
+-'  35  13  ~/cpumetrics.sh
+|4,39,35,13,1702608809,"~/cpumetrics.sh"
+-'  35  13  ~/cpumetrics.sh
+|4,39,35,13,1702608809,"~/cpumetrics.sh"
+-'  35  13  ~/cpumetrics.sh
+|4,39,35,13,1702608809,"~/cpumetrics.sh"
+-'  35  13  ~/cpumetrics.sh
+|4,39,35,13,1702608809,"~/cpumetrics.sh"
+-'  35  13  ~/cpumetrics.sh
+|4,39,35,13,1702608809,"~/cpumetrics.sh"
+-'  35  13  ~/cpumetrics.sh
+|4,39,35,13,1702608809,"~/cpumetrics.sh"
+-'  35  13  ~/cpumetrics.sh
+|4,39,35,13,1702608809,"~/cpumetrics.sh"
+-'  35  13  ~/cpumetrics.sh
+|4,39,35,13,1702608809,"~/cpumetrics.sh"
+-'  35  13  ~/cpumetrics.sh
+|4,39,35,13,1702608809,"~/cpumetrics.sh"
+-'  35  13  ~/cpumetrics.sh
+|4,39,35,13,1702608809,"~/cpumetrics.sh"
+-'  35  13  ~/cpumetrics.sh
+|4,39,35,13,1702608809,"~/cpumetrics.sh"
+-'  35  13  ~/cpumetrics.sh
+|4,39,35,13,1702608809,"~/cpumetrics.sh"
+-'  35  13  ~/cpumetrics.sh
+|4,39,35,13,1702608809,"~/cpumetrics.sh"
+-'  35  13  ~/cpumetrics.sh
+|4,39,35,13,1702608809,"~/cpumetrics.sh"
+-'  35  13  ~/cpumetrics.sh
+|4,39,35,13,1702608809,"~/cpumetrics.sh"
+-'  35  13  ~/cpumetrics.sh
+|4,39,35,13,1702608809,"~/cpumetrics.sh"
+-'  35  13  ~/cpumetrics.sh
+|4,39,35,13,1702608809,"~/cpumetrics.sh"
+-'  35  13  ~/cpumetrics.sh
+|4,39,35,13,1702608809,"~/cpumetrics.sh"
+-'  35  13  ~/cpumetrics.sh
+|4,39,35,13,1702608809,"~/cpumetrics.sh"
+-'  35  13  ~/cpumetrics.sh
+|4,39,35,13,1702608809,"~/cpumetrics.sh"
+-'  35  13  ~/cpumetrics.sh
+|4,39,35,13,1702608809,"~/cpumetrics.sh"
+-'  35  13  ~/cpumetrics.sh
+|4,39,35,13,1702608809,"~/cpumetrics.sh"
+-'  35  13  ~/cpumetrics.sh
+|4,39,35,13,1702608809,"~/cpumetrics.sh"
+-'  35  13  ~/cpumetrics.sh
+|4,39,35,13,1702608809,"~/cpumetrics.sh"
+-'  35  13  ~/cpumetrics.sh
+|4,39,35,13,1702608809,"~/cpumetrics.sh"
+-'  35  13  ~/cpumetrics.sh
+|4,39,35,13,1702608809,"~/cpumetrics.sh"
+-'  35  13  ~/cpumetrics.sh
+|4,39,35,13,1702608809,"~/cpumetrics.sh"
+-'  35  13  ~/cpumetrics.sh
+|4,39,35,13,1702608809,"~/cpumetrics.sh"
+-'  35  13  ~/cpumetrics.sh
+|4,39,35,13,1702608809,"~/cpumetrics.sh"
+-'  35  13  ~/cpumetrics.sh
+|4,39,35,13,1702608809,"~/cpumetrics.sh"
+-'  35  13  ~/cpumetrics.sh
+|4,39,35,13,1702608809,"~/cpumetrics.sh"
+-'  35  13  ~/cpumetrics.sh
+|4,39,35,13,1702608809,"~/cpumetrics.sh"
+-'  35  13  ~/cpumetrics.sh
+|4,39,35,13,1702608809,"~/cpumetrics.sh"
+-'  35  13  ~/cpumetrics.sh
+|4,39,35,13,1702608809,"~/cpumetrics.sh"
+-'  35  13  ~/cpumetrics.sh
+|4,39,35,13,1702608809,"~/cpumetrics.sh"
+-'  35  13  ~/cpumetrics.sh
+|4,39,35,13,1702608809,"~/cpumetrics.sh"
+-'  35  13  ~/cpumetrics.sh
+|4,39,35,13,1702608809,"~/cpumetrics.sh"
+-'  35  13  ~/cpumetrics.sh
+|4,39,35,13,1702608809,"~/cpumetrics.sh"
+-'  35  13  ~/cpumetrics.sh
+|4,39,35,13,1702608809,"~/cpumetrics.sh"
+-'  35  13  ~/cpumetrics.sh
+|4,39,35,13,1702608809,"~/cpumetrics.sh"
+-'  35  13  ~/cpumetrics.sh
+|4,39,35,13,1702608809,"~/cpumetrics.sh"
+-'  35  13  ~/cpumetrics.sh
+|4,39,35,13,1702608809,"~/cpumetrics.sh"
+-'  35  13  ~/cpumetrics.sh
+|4,39,35,13,1702608809,"~/cpumetrics.sh"
+-'  35  13  ~/cpumetrics.sh
+|4,39,35,13,1702608809,"~/cpumetrics.sh"
+-'  35  13  ~/cpumetrics.sh
+|4,39,35,13,1702608809,"~/cpumetrics.sh"
+-'  35  13  ~/cpumetrics.sh
+|4,39,35,13,1702608809,"~/cpumetrics.sh"
+-'  35  13  ~/cpumetrics.sh
+|4,39,35,13,1702608809,"~/cpumetrics.sh"
+-'  35  13  ~/cpumetrics.sh
+|4,39,35,13,1702608809,"~/cpumetrics.sh"
+-'  35  13  ~/cpumetrics.sh
+|4,39,35,13,1702608809,"~/cpumetrics.sh"
+-'  35  13  ~/cpumetrics.sh
+|4,39,35,13,1702608809,"~/cpumetrics.sh"
+-'  35  13  ~/cpumetrics.sh
+|4,39,35,13,1702608809,"~/cpumetrics.sh"
+-'  35  13  ~/cpumetrics.sh
+|4,39,35,13,1702608809,"~/cpumetrics.sh"
+-'  35  13  ~/cpumetrics.sh
+|4,39,35,13,1702608809,"~/cpumetrics.sh"
+-'  35  13  ~/cpumetrics.sh
+|4,39,35,13,1702608809,"~/cpumetrics.sh"
 
 # History of marks within files (newest to oldest):
+
+> ~/services.sh
+	*	1702613167	0
+	"	19	0
+	^	11	5
+	.	11	4
+	+	1	34
+	+	8	1
+	+	3	25
+	+	8	1
+	+	13	52
+	+	13	49
+	+	18	4
+	+	12	17
+	+	10	8
+	+	11	4
 
 > ~/cpumetrics.sh
 	*	1702608806	0
