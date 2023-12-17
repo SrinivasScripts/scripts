@@ -1,0 +1,2 @@
+Disk Usage: 1%
+Metrics collected successfully and stored in diskmetrics.txt

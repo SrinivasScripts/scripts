@@ -1,4 +1,29 @@
-Timestamp: Fri Dec 15 08:24:28 IST 2023
-CPU Usage: 0%
-Memory Usage: 525 MB
-ERROR: Memory Usage exceeds 75%: 525
+Monitoring Script - Mon Dec 18 02:48:01 IST 2023
+CPU Usage 0
+ERROR: Memory Usage exceeds 75%: 532
+Mon Dec 18 02:48:02 IST 2023 - ERROR: plymouth Service not Active
+CPU Usage 0
+ERROR: Memory Usage exceeds 75%: 531
+Mon Dec 18 02:51:45 IST 2023 - ERROR: plymouth Service not Active
+Monitoring Script - Mon Dec 18 02:56:12 IST 2023
+Timestamp: Mon Dec 18 02:56:12 IST 2023
+
+CPU Usage 0.12
+ERROR: Memory Usage exceeds 75%: 532
+Mon Dec 18 02:56:13 IST 2023 - ERROR: plymouth Service not Active
+CPU Usage 0
+ERROR: Memory Usage exceeds 75%: 533
+Mon Dec 18 02:58:35 IST 2023 - ERROR: plymouth Service not Active
+Monitoring Script - Mon Dec 18 02:58:35 IST 2023
+Timestamp: Mon Dec 18 02:58:35 IST 2023
+
+CPU Usage 0
+ERROR: Memory Usage exceeds 75%: 532
+Mon Dec 18 03:03:10 IST 2023 - ERROR: plymouth Service not Active
+Monitoring Script - Mon Dec 18 03:03:10 IST 2023
+
+CPU Usage 0.25
+ERROR: Memory Usage exceeds 75%: 532
+Mon Dec 18 03:06:06 IST 2023 - ERROR: plymouth Service not Active
+Monitoring Script - Mon Dec 18 03:06:06 IST 2023
+
