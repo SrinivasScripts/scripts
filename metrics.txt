@@ -1,6 +1,0 @@
- [ ? ]  apport
- [ ? ]  hwclock.sh
- [ ? ]  kmod
- [ ? ]  plymouth
- [ ? ]  plymouth-log
-ERROR: Service plymouth is not running
