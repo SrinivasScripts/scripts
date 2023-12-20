@@ -11,10 +11,10 @@ This Bash script monitors CPU, memory, disk usage, and the status of specified s
    cd your-repository
 
 Make the Script Executable:
-chmod +x monitor_script.sh
+chmod +x cpumetrics.sh
 
 Run the Script:
-./monitor_script.sh
+./cpumetrics.sh
 
 Configuration
 Tailor the script to your specific needs by adjusting the following threshold parameters:
