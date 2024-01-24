@@ -4,6 +4,20 @@
 
 This Bash script is designed to monitor key system metrics, including CPU, memory, and disk usage, as well as the status of specified services. The script aims to provide users with a flexible and easy-to-use solution for customizing monitoring thresholds and obtaining insightful log outputs.
 
+## Dependencies
+
+Ensure the following dependencies are installed on your system:
+
+- **mpstat:** Used for gathering CPU usage statistics.
+  ```bash
+  # For Ubuntu/Debian
+  sudo apt-get install sysstat
+
+ ree: Used for obtaining memory usage information.
+
+df: Used for retrieving disk usage information.
+
+systemctl: Used for checking the status of services.
 ## STAR Analysis
 
 ### Situation
@@ -47,3 +61,13 @@ This Bash script is designed to monitor key system metrics, including CPU, memor
 1. Clone the repository:
    ```bash
    git clone https://github.com/SrinivasScripts/system-monitor-script.git
+
+2. Navigate your Peoject directory
+   cd system-monitor-script
+3. Executaable Script
+   chmod +x monitor_script.sh
+4. Run the script
+   ./monitor_script.sh
+
+   
+
