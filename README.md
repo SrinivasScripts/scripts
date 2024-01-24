@@ -13,7 +13,7 @@ Ensure the following dependencies are installed on your system:
   # For Ubuntu/Debian
   sudo apt-get install sysstat
 
- ree: Used for obtaining memory usage information.
+ free: Used for obtaining memory usage information.
 
 df: Used for retrieving disk usage information.
 
